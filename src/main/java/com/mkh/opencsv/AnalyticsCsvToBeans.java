@@ -4,6 +4,7 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
@@ -20,13 +21,13 @@ public class AnalyticsCsvToBeans {
     public static void main(String[] args) throws IOException, CsvValidationException, CsvRequiredFieldEmptyException {
         Reader reader = new BufferedReader(new FileReader("src/main/resources/analytics.csv"));
 
-        CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
+        /*CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
         CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(csvParser).build();
 
         reader.mark(100);
         String[] header = csvReader.readNext();
         System.out.println("print header: "+header[7]);
-        reader.reset();
+        reader.reset();*/
 
         HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion> strategy = new HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion>();
         strategy.setType(AnalyticsCsvRecursion.class);
@@ -43,7 +44,7 @@ public class AnalyticsCsvToBeans {
         List<AnalyticsCsv> results = csvToBean.parse();*/
         //results.stream().map(analyticsCsv -> analyticsCsv.getFrom()).forEach(System.out::println);
 
-        List<AnalyticsCsvRecursion> analyticsCsvRecursionList = new CsvToBeanBuilder<AnalyticsCsvRecursion>(reader)
+        /*List<AnalyticsCsvRecursion> analyticsCsvRecursionList = new CsvToBeanBuilder<AnalyticsCsvRecursion>(reader)
                 .withType(AnalyticsCsvRecursion.class)
                 .withSeparator(';')
                 //.withSkipLines(1)
@@ -52,6 +53,19 @@ public class AnalyticsCsvToBeans {
                 .build().parse();
 
 
-        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getConsumer()).forEach(System.out::println);
+        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getConsumer()).forEach(System.out::println);*/
+
+
+        CsvToBean<AnalyticsCsvRecursion> csvToBean2 = new CsvToBeanBuilder(reader)
+                .withType(AnalyticsCsvRecursion.class)
+                .withSeparator(';')
+                //.withSkipLines(1)
+                .withIgnoreLeadingWhiteSpace(true)
+                .withIgnoreEmptyLine(true)
+                .build();
+        List<AnalyticsCsvRecursion> results2 = csvToBean2.parse();
+
+        results2.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getConsumer()).forEach(System.out::println);
+
     }
 }

@@ -15,14 +15,6 @@ public class Dimensions {
     @CsvBindByPosition(position = 4, required = true)
     private String proxy;
 
-    public Dimensions(String organization, String environment, String product, String consumer, String proxy) {
-        this.organization = organization;
-        this.environment = environment;
-        this.product = product;
-        this.consumer = consumer;
-        this.proxy = proxy;
-    }
-
     public String getOrganization() {
         return organization;
     }

@@ -17,13 +17,6 @@ public class Metrics {
     @CsvBindByPosition(position = 7, required = true)
     private String count;
 
-    public Metrics(Date from, Date to, String type, String count) {
-        this.from = from;
-        this.to = to;
-        this.type = type;
-        this.count = count;
-    }
-
     public Date getFrom() {
         return from;
     }

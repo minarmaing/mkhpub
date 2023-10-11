@@ -1,6 +1,11 @@
 package com.mkh.opencsv.domain;
 
+import com.opencsv.bean.CsvBindAndSplitByName;
 import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvDate;
+import com.opencsv.bean.CsvNumber;
+
+import java.util.Date;
 
 public class Metrics {
 
@@ -12,10 +17,13 @@ public class Metrics {
     private Date to;*/
 
     @CsvBindByPosition(position = 5, required = true)
-    private String time;
+    @CsvDate("yyyy-MM-dd'T'HH:mm'Z'")
+    private Date time;
     /*@CsvBindByPosition(position = 6, required = true)
     private String to;*/
-    @CsvBindByPosition(position = 6, required = true)
+    @CsvBindByPosition(position = 6, required = true, capture = "([^\\.]+)")
+    //@CsvBindAndSplitByName(elementType = Integer.class, splitOn = ".")
+    //@CsvNumber()
     private String count;
 
     private String type;
@@ -52,11 +60,11 @@ public class Metrics {
         this.count = count;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

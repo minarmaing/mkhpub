@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AnalyticsCsvToBeans {
 
@@ -61,11 +62,16 @@ public class AnalyticsCsvToBeans {
                 .withSeparator(';')
                 //.withSkipLines(1)
                 .withIgnoreLeadingWhiteSpace(true)
+                .withIgnoreQuotations(true)
                 .withIgnoreEmptyLine(true)
                 .build().parse();
 
 
-        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().getCount()).forEach(System.out::println);
+        //analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().getCount()).forEach(System.out::println);
+        List<AnalyticsCsvRecursion> updatedListOfObjects = analyticsCsvRecursionList.stream().peek(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().setType(type)).collect(Collectors.toList());
+
+        System.out.println("Lets see ....");
+
 
         /*List<AnalyticsCsvRecursion> analyticsCsvRecursionList = new CsvToBeanBuilder<AnalyticsCsvRecursion>(reader)
                 .withType(AnalyticsCsvRecursion.class)

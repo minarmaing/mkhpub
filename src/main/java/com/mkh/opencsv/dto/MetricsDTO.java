@@ -4,26 +4,27 @@ import java.util.Date;
 
 public class MetricsDTO {
 
-    private Date from;
-    private Date to;
-    private String type;
+    private String time;
+    //private Date to;
     private String count;
 
-    public Date getFrom() {
-        return from;
+    private String type;
+
+    public String getTime() {
+        return time;
     }
 
-    public void setFrom(Date from) {
-        this.from = from;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public Date getTo() {
+    /*public Date getTo() {
         return to;
     }
 
     public void setTo(Date to) {
         this.to = to;
-    }
+    }*/
 
     public String getType() {
         return type;

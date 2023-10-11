@@ -1,5 +1,6 @@
 package com.mkh.opencsv;
 
+import com.opencsv.CSVIterator;
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class AnalyticsCsvToBeans {
 
     public static void main(String[] args) throws IOException, CsvValidationException, CsvRequiredFieldEmptyException {
-        // Reader reader = new BufferedReader(new FileReader("src/main/resources/analytics.csv"));
+        Reader reader = new BufferedReader(new FileReader("src/main/resources/analytics.csv"));
 
         /*CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
         CSVReader csvReader = new CSVReaderBuilder(reader).withCSVParser(csvParser).build();
@@ -25,9 +26,24 @@ public class AnalyticsCsvToBeans {
         System.out.println("print header: "+header[7]);
         reader.reset();*/
 
-        HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion> strategy = new HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion>();
+        /*HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion> strategy = new HeaderColumnNameMappingStrategy<AnalyticsCsvRecursion>();
         strategy.setType(AnalyticsCsvRecursion.class);
-        strategy.generateHeader(new AnalyticsCsvRecursion());
+        strategy.generateHeader(new AnalyticsCsvRecursion());*/
+
+
+        CSVReaderHeaderAware csvReaderHeaderAware = new CSVReaderHeaderAware(reader);
+        //csvReaderHeaderAware.skip(0);
+        Map<String, String> record = csvReaderHeaderAware.readMap();
+        //System.out.println(record.keySet().toString().split(";")[6].replace("]",""));
+        String type = record.keySet().toString().split(";")[6].replace("]", "");
+
+        reader.reset();
+
+        ColumnPositionMappingStrategy<AnalyticsCsvRecursion> positionMappingStrategy = new ColumnPositionMappingStrategyBuilder<AnalyticsCsvRecursion>().build();
+        positionMappingStrategy.setType(AnalyticsCsvRecursion.class);
+        //String[] columns = new String[] {"organization","environment","apiproxy","api_product","developer_app","time","sum(message_count)"};
+        String[] columns = new String[]{"organization", "environment", "apiproxy", "api_product", "developer_app", "time", type};
+        positionMappingStrategy.setColumnMapping(columns);
 
         /*CsvToBean<AnalyticsCsv> csvToBean = new CsvToBeanBuilder(reader)
                 .withType(AnalyticsCsv.class)
@@ -40,6 +56,17 @@ public class AnalyticsCsvToBeans {
         List<AnalyticsCsv> results = csvToBean.parse();*/
         //results.stream().map(analyticsCsv -> analyticsCsv.getFrom()).forEach(System.out::println);
 
+        List<AnalyticsCsvRecursion> analyticsCsvRecursionList = new CsvToBeanBuilder<AnalyticsCsvRecursion>(reader)
+                .withMappingStrategy(positionMappingStrategy)
+                .withSeparator(';')
+                //.withSkipLines(1)
+                .withIgnoreLeadingWhiteSpace(true)
+                .withIgnoreEmptyLine(true)
+                .build().parse();
+
+
+        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().getCount()).forEach(System.out::println);
+
         /*List<AnalyticsCsvRecursion> analyticsCsvRecursionList = new CsvToBeanBuilder<AnalyticsCsvRecursion>(reader)
                 .withType(AnalyticsCsvRecursion.class)
                 .withSeparator(';')
@@ -49,8 +76,7 @@ public class AnalyticsCsvToBeans {
                 .build().parse();
 
 
-        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getConsumer()).forEach(System.out::println);*/
-
+        analyticsCsvRecursionList.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getDeveloper_app()).forEach(System.out::println);*/
 
         /*MappingStrategy<AnalyticsCsvRecursion> mappingStrategy = new FuzzyMappingStrategyBuilder<AnalyticsCsvRecursion>().build();
         strategy.setType(AnalyticsCsvRecursion.class);
@@ -68,29 +94,30 @@ public class AnalyticsCsvToBeans {
         results2.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().getCount()).forEach(System.out::println);*/
 
 
-        /*ColumnPositionMappingStrategy<AnalyticsCsvRecursion> strat = new ColumnPositionMappingStrategyBuilder<AnalyticsCsvRecursion>().build();
-        strat.setType(AnalyticsCsvRecursion.class);
-        String[] columns = new String[] {"organization","environment","product","consumer","proxy","from","to","sum(message_count)"}; // the fields to bind to in your bean
-        strat.setColumnMapping(columns);
+        /*CsvToBean csv = new CsvToBean();
+        List list = csv.parse(positionMappingStrategy, reader);*/ //issue with parse method
 
-        *//*CsvToBean csv = new CsvToBean();
-        List list = csv.parse(strat, reader);*//*
-
-        CsvToBean csvToBean2 = new CsvToBeanBuilder(reader)
-                .withMappingStrategy(strat)
+        /*CsvToBean csvToBean2 = new CsvToBeanBuilder(reader)
+                .withMappingStrategy(positionMappingStrategy)
                 //.withType(AnalyticsCsvRecursion.class)
                 .withSeparator(';')
-                //.withSkipLines(1)
-                .withIgnoreLeadingWhiteSpace(true)
-                .withIgnoreEmptyLine(true)
+                //.withSkipLines(0)
+                //.withIgnoreLeadingWhiteSpace(true)
+                //.withIgnoreEmptyLine(true)
                 .build();
         List<AnalyticsCsvRecursion> results2 = csvToBean2.parse();
-        results2.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getMetrics().getCount()).forEach(System.out::println);*/
+        results2.stream().map(analyticsCsvRecursion -> analyticsCsvRecursion.getDimensions().getDeveloper_app()).forEach(System.out::println);*/
 
-        CSVReaderHeaderAware csvReaderHeaderAware = new CSVReaderHeaderAware(new FileReader("src/main/resources/analytics.csv"));
-        Map<String, String> record = csvReaderHeaderAware.readMap();
 
-        System.out.println(record.keySet().toString().split(";")[7].replace("]",""));
+
+
+       /* CSVIterator iterator = new CSVIterator(csvReaderHeaderAware);
+        for (CSVIterator it = iterator; it.hasNext(); ) {
+            String[] nextLine = it.next();
+            // nextLine[] is an array of values from the line
+            System.out.println(nextLine[0] + nextLine[1] + "etc...");
+        }*/
+
 
     }
 }

@@ -4,9 +4,9 @@ public class DimensionsDTO {
 
     private String organization;
     private String environment;
-    private String product;
-    private String consumer;
-    private String proxy;
+    private String api_product;
+    private String developer_app;
+    private String apiproxy;
 
     public String getOrganization() {
         return organization;
@@ -24,27 +24,27 @@ public class DimensionsDTO {
         this.environment = environment;
     }
 
-    public String getProduct() {
-        return product;
+    public String getApi_product() {
+        return api_product;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setApi_product(String api_product) {
+        this.api_product = api_product;
     }
 
-    public String getConsumer() {
-        return consumer;
+    public String getDeveloper_app() {
+        return developer_app;
     }
 
-    public void setConsumer(String consumer) {
-        this.consumer = consumer;
+    public void setDeveloper_app(String developer_app) {
+        this.developer_app = developer_app;
     }
 
-    public String getProxy() {
-        return proxy;
+    public String getApiproxy() {
+        return apiproxy;
     }
 
-    public void setProxy(String proxy) {
-        this.proxy = proxy;
+    public void setApiproxy(String apiproxy) {
+        this.apiproxy = apiproxy;
     }
 }

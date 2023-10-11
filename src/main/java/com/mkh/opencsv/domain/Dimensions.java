@@ -9,11 +9,12 @@ public class Dimensions {
     @CsvBindByPosition(position = 1, required = true)
     private String environment;
     @CsvBindByPosition(position = 2, required = true)
-    private String product;
+    private String apiproxy;
     @CsvBindByPosition(position = 3, required = true)
-    private String consumer;
+    private String api_product;
     @CsvBindByPosition(position = 4, required = true)
-    private String proxy;
+    private String developer_app;
+
 
     public String getOrganization() {
         return organization;
@@ -31,27 +32,27 @@ public class Dimensions {
         this.environment = environment;
     }
 
-    public String getProduct() {
-        return product;
+    public String getApi_product() {
+        return api_product;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setApi_product(String api_product) {
+        this.api_product = api_product;
     }
 
-    public String getConsumer() {
-        return consumer;
+    public String getDeveloper_app() {
+        return developer_app;
     }
 
-    public void setConsumer(String consumer) {
-        this.consumer = consumer;
+    public void setDeveloper_app(String developer_app) {
+        this.developer_app = developer_app;
     }
 
-    public String getProxy() {
-        return proxy;
+    public String getApiproxy() {
+        return apiproxy;
     }
 
-    public void setProxy(String proxy) {
-        this.proxy = proxy;
+    public void setApiproxy(String apiproxy) {
+        this.apiproxy = apiproxy;
     }
 }

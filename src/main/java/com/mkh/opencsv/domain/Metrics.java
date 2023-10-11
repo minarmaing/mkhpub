@@ -1,9 +1,6 @@
 package com.mkh.opencsv.domain;
 
 import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvDate;
-
-import java.util.Date;
 
 public class Metrics {
 
@@ -15,12 +12,13 @@ public class Metrics {
     private Date to;*/
 
     @CsvBindByPosition(position = 5, required = true)
-    private String from;
+    private String time;
+    /*@CsvBindByPosition(position = 6, required = true)
+    private String to;*/
     @CsvBindByPosition(position = 6, required = true)
-    private String to;
-    private String type;
-    @CsvBindByPosition(position = 7, required = true)
     private String count;
+
+    private String type;
 
     /*public Date getFrom() {
         return from;
@@ -54,19 +52,19 @@ public class Metrics {
         this.count = count;
     }
 
-    public String getFrom() {
-        return from;
+    public String getTime() {
+        return time;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getTo() {
+    /*public String getTo() {
         return to;
     }
 
     public void setTo(String to) {
         this.to = to;
-    }
+    }*/
 }

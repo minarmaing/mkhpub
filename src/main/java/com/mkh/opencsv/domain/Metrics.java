@@ -1,9 +1,6 @@
 package com.mkh.opencsv.domain;
 
-import com.opencsv.bean.CsvBindAndSplitByName;
-import com.opencsv.bean.CsvBindByPosition;
-import com.opencsv.bean.CsvDate;
-import com.opencsv.bean.CsvNumber;
+import com.opencsv.bean.*;
 
 import java.util.Date;
 
